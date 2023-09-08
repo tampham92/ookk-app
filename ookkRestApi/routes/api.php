@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //User info
 Route::group(['middleware'=>'api', 'prefix'=>'user'], function($router){
     Route::get('/profile', [UserController::class, 'userInfo']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
     Route::post('/logout', [UserController::class, 'logout']);
 });
 
