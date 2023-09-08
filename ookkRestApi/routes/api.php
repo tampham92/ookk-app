@@ -21,7 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //User info
-Route::get('/user/{id}', [UserController::class, 'userInfo']);
+Route::group(['middleware'=>'api', 'prefix'=>'user'], function($router){
+    Route::get('/profile', [UserController::class, 'userInfo']);
+    Route::post('/logout', [UserController::class, 'logout']);
+});
 
 //Route auth
 Route::post('/auth/register', [AuthController::class, 'register']);

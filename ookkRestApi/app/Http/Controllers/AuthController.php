@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-use Hash;
 use App\Models\User;
 use \App\Http\Resources\User as UserResource;
 
@@ -48,39 +47,40 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $email = $request->email;
-        $password = $request->password;
-
         //Kiểm tra user nếu không tồn tại, trạng thái không hoạt động, và password không đúng thì trả về lỗi
-        if (!empty($email) && !empty($password)){
-            $user = User::where('email', $email)->first();
+        $validator = Validator::make($request->all(), 
+        [
+            'email' => 'required|email|exists:users',
+            'password' => 'required',
+        ]);
 
-            if (empty($user)) {
-                return response()->json([
-                    'message' => 'User is not valid',
-                    'data' => null
-                ], 404);
-            }
-
-            if($user->active == 0){
-                return response()->json([
-                    'message' => 'User is disable',
-                    'data' => null
-                ], 403);
-            }
- 
-            $isCheckPassword = Hash::check($password, $user->password);
-            if (!$isCheckPassword){
-                return response()->json([
-                    'message' => 'Password is not correct',
-                    'data' => null
-                ], 302);
-            }
-
+        if($validator->fails()){
             return response()->json([
-                'message' => 'login suscess',
-                'data' => $user
-            ]);
+                'message' => 'Something went wrong',
+                'data' => $validator->errors(),
+            ], 403);
         }
+
+        $token=auth()->attempt($validator->validated());
+
+        if(!$token){
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        return $this->createJwtToken($token);
+    }
+
+    /**
+     * Create token tra ve cho client
+     * @param string $token
+     */
+    private function createJwtToken($token){
+        return response()->json([
+            'token' => $token,
+            'token_type' => 'Bearer',
+            'user' => auth()->user()
+        ]);
     }
 }

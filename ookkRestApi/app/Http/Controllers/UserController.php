@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use \App\Http\Resources\User as UserResource;
-
 class UserController extends Controller
 {
     /**
      * Method for get in for user
      */
-    public function userInfo($id){
-        $user = User::find($id)->first();
+    public function userInfo(){
+        return response()->json(auth()->user(), 200);
+    }
 
-        if (is_null($user)) {
-            return response()->json([
-                'message' => 'User is not valid',
-                'data' => null
-            ], 404);
-        }
+
+    /**
+     * Logout method
+     */
+    public function logout(){
+        auth()->logout();
 
         return response()->json([
-            'message' => 'User info',
-            'data' => new UserResource($user)
-        ], 200);
+            'message' => 'User is logged out']
+        );
     }
 }
