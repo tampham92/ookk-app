@@ -17,24 +17,24 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
-        // dd($id);
+        // dd($request);
         // Validate data submit lên từ frontend
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,'.$id,
-            ]
-        );
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'name' => 'required|string|max:255',
+        //         'email' => 'required|string|email|max:255',
+        //     ]
+        // );
 
-        if($validator->fails()){
-            return response()->json([
-                'message' => 'Something went wrong',
-                'data' => $validator->errors(),
-            ], 301);
-        }
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'message' => 'Something went wrong',
+        //         'data' => $validator->errors(),
+        //     ], 422);
+        // }
 
 
         // $user = User::whereId($id)->first();
@@ -46,13 +46,23 @@ class UserController extends Controller
         //         'data' => null,
         //     ], 404);
         // }
-        
-        // $update = User::save(validator()->validated());
+        // $user = User::find($id);
 
-        // return response()->json([
-        //     'message' => 'User is updated',
-        //     'data' => $update,
-        // ]);
+        // // $user = request()->user();
+        // if(!is_null($user)){
+        //     $user->update([
+        //         'name'->$request->name,
+        //         'email'->$request->email
+        //     ]);
+        //     return response()->json([
+        //         'message' => 'User is updated',
+        //         'data' => $user,
+        //     ]);
+        // }
+        
+        // $update = User::save($user);
+
+        
     }
 
     /**

@@ -74,14 +74,14 @@ export default defineComponent({
     };
     getProfile();
 
-    const updateProfile = () =>{
-        // api.put(`/user/update/${userInfo.value.id}`, userInfo)
-        // .then((resp) => {
-        //     console.log(resp);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
+    const updateProfile = () =>{        
+        api.put(`/user/update/${userInfo.value.id}`, userInfo)
+        .then((resp) => {
+            console.log(resp);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     return {
