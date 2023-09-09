@@ -21,7 +21,7 @@ import { defineComponent } from 'vue';
 import { api } from '../boot/axios';
 
 export default defineComponent ({
-    name: "Header",
+    name: "Navbar",
     setup(){
         let isLogin = false;
 

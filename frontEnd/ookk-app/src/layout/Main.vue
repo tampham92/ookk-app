@@ -1,17 +1,15 @@
 <template>
     <div>
-        <Header />
-        <router-view />
-    </div>
+       <Navbar />
+       <router-view />
+   </div>
 </template>
 <script>
 
-import Header from '../components/header.vue';
+import Navbar from '../components/Navbar.vue';
 
 export default{
-    name: "main-layout",
-    components: {
-        Header
-    }
+   name: "main-layout",
+   components: { Navbar }
 }
 </script>
